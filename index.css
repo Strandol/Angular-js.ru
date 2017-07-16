@@ -1,0 +1,22 @@
+img {
+    width: 100px;
+    height: 100px;
+}
+
+ul {
+    width: 300px;
+    display: inline-block;
+}
+
+li {
+    margin-bottom: 20px;
+}
+
+li button {
+    margin-bottom: 20px;
+}
+
+li div {
+    padding: 10px;
+    border: 2px solid grey;
+}

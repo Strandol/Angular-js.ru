@@ -1,0 +1,23 @@
+[
+    {
+        "title": "Старый добрый друг",
+        "addresser": "Вильям",
+        "addresserImg": "src/img/william.jpg",
+        "message": "Привет друг!",
+        "date": "15.07.2017"
+    },
+    {
+        "title": "Работа",
+        "addresser": "Вася",
+        "addresserImg": "src/img/vasya.jpg",
+        "message": "Завтра работа начинается с 10 часов.",
+        "date": "13.07.2017"
+    },
+    {
+        "title": "Билеты",
+        "addresser": "Марина",
+        "addresserImg": "src/img/marina.png",
+        "message": "Добрый день, есть возможность купить билеты на 12.10.17.",
+        "date": "12.07.2017"  
+    }
+]
