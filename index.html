@@ -4,10 +4,11 @@
         <meta charset="UTF-8">
         <title>Почтовый ящик</title>
         <link rel="stylesheet" href="index.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     </head>
     <body ng-app="userMail">
-        <div ng-controller="userController">
-            <h1>Message list</h1>
+        <h1>Message list</h1>
+        <div class='msg_block' ng-controller="userController">
             <ul>
                 <message ng-repeat="msg in messages"></message>
             </ul>
