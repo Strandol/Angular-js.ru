@@ -1,12 +1,26 @@
 let app = angular.module('userMail', []);
 
-app.controller('userController', function($scope) {
-    $.get('https://api.myjson.com/bins/kpg5f', (response) => {
-        $scope.messages = response;
-        $scope.$applyAsync();
-    }).fail((err) => {
-        alert(err);
-    })
+app.controller('userController', function($scope, MsgService) {
+    MsgService.getMessages()
+    .then(
+        (messages) => { 
+            $scope.messages = messages;
+            $scope.$applyAsync();
+        },
+        (err) => { alert(err) }
+    )
+})
+
+app.service('MsgService', function() {
+    this.getMessages = function() {
+        return new Promise((resolve, reject) => {
+            $.get('https://api.myjson.com/bins/kpg5f', (response) => {
+                resolve(response)
+            }).fail((err) => {
+                reject(err);
+            })  
+        })
+    }
 })
 
 app.directive('message', () => {
