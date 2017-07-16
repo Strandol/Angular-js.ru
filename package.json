@@ -1,0 +1,19 @@
+{
+  "name": "AngularJSru",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Strandol/Angular-js.ru.git"
+  },
+  "author": "strandol",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Strandol/Angular-js.ru/issues"
+  },
+  "homepage": "https://github.com/Strandol/Angular-js.ru#readme"
+}
