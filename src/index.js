@@ -26,7 +26,7 @@ app.directive('message', () => {
                 <h2>{{msg.addresser}}</h2>
                 <h3>{{msg.title}}</h3>
                 <p>{{msg.date}}</p>
-                <button ng-model="opened" ng-click="opened=!opened">Open message</button>
+                <button ng-model="opened" ng-click="opened=!opened"></button>
                 <div ng-show="opened">
                     <h4>{{msg.addresser}}</h4>
                     <img src={{msg.addresserImg}}>
