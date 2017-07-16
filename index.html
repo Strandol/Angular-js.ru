@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Почтовый ящик</title>
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body ng-app="userMail">
+        <div ng-controller="userController">
+            <h1>Message list</h1>
+            <ul>
+                <message ng-repeat="msg in messages"></message>
+            </ul>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="src/index.js"></script>
+    </body>
+</html>
