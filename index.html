@@ -8,9 +8,23 @@
     </head>
     <body ng-app="userMail">
         <h1>Message list</h1>
-        <div class='msg_block' ng-controller="userController">
-            <ul>
-                <message ng-repeat="msg in messages"></message>
+        <div class="wrapper" ng-controller="UserController as userController">
+            <div class="sectionBlock">
+                <input id="inputMsg" type="radio" name="sectionElement" value="input" checked>
+                <label ng-click="userController.onSectionClickHandler('input')" for="inputMsg">Входящие <span><p>{{userController.inputMsgs.length}}</p></span></label><br />
+                <input id="outputMsg" type="radio" name="sectionElement" value="output">
+                <label ng-click="userController.onSectionClickHandler('output')" for="outputMsg">Исходящие <span><p>{{userController.outputMsgs.length}}</p></span></label><br />
+                <input id="markedMsg" type="radio" name="sectionElement" value="marked">                
+                <label ng-click="userController.onSectionClickHandler('marked')" for="markedMsg">Помеченные <span><p>{{userController.markedMsgs.length}}</p></span></label>
+                <input id="contacts" ng-click="userController.isContactsOpen = true" type="radio" name="sectionElement">
+                <label class="contactsBtn" for="contacts"></label>
+            </div>
+            <ul class='msg_block'>
+                <div class="contacts" ng-show="userController.isContactsOpen">
+                    <contacts ng-repeat="contact in userController.contacts"></contacts>
+                    <h2 class="noContactsHeader" ng-show="!userController.contacts.length">Контактов не записано...</h2>
+                </div>
+                <message ng-show="!userController.isContactsOpen" ng-repeat="msg in userController.selectedMsgs"></message>
             </ul>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
