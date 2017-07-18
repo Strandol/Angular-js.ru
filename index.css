@@ -33,6 +33,7 @@ contacts a {
 }
 
 .msg_block .contacts {
+    min-width: 600px;
     padding: 15px;
     margin: 0;
     display: grid;
