@@ -183,6 +183,8 @@ div h4 {
     margin-right: 20px;
     border: 2px solid black;
     border-radius: 5px;
+    box-sizing: border-box;
+    height: 350px;
 }
 
 .contact a {
