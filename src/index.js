@@ -9,8 +9,6 @@ $('.sectionBlock').on('click', function(e) {
 })
 
 app.controller('UserController', function(MsgService, ContactService) {
-    this.isContactsOpen = false;
-    
     MsgService.loadUsers()
     .then(
         (users) => {
@@ -24,6 +22,7 @@ app.controller('UserController', function(MsgService, ContactService) {
             
             this.selectedUser = this.users[0];
             this.selectedMsgs = this.users[0].inputMsgs;
+            window.selectedUser = this.selectedUser;
         },
         (err) => { alert(err) }
     )
