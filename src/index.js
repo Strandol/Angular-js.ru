@@ -106,6 +106,10 @@ app.directive('message', () => {
 app.directive('contacts', () => {
     return {
         restrict: 'E',
+<<<<<<< HEAD
         template: 'src/contacts.html'
+=======
+        templateUrl: 'src/contacts.html'
+>>>>>>> cd3768cd407eb61a5181ac830ebc6752589b8469
     }
 })
