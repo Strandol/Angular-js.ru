@@ -76,47 +76,6 @@ app.controller('UserController', function(MsgService, ContactService) {
     }
 })
 
-app.config(($stateProvider) => {
-    $stateProvider
-        .state('index', {
-            url: '/',
-            template: `
-                <message ng-repeat="msg in userController.selectedUser.inputMsgs"></message>
-            `
-        })
-        .state('contacts', {
-            url: ':email/contacts',
-            template: `
-                <div class="contacts">
-                    <contacts ng-repeat="contact in userController.selectedUser.contacts"></contacts>
-                    <h2 class="noContactsHeader" ng-show="!userController.selectedUser.contacts.length">Контактов не записано...</h2>
-                </div>
-            `
-        })
-        .state('welcome', {
-            url: ':email/welcome',
-            template: '<h2>Hello {{userController.selectedUser.user}}</h2>'
-        })
-        .state('inputMsgs', {
-            url: ':email/messages/input',
-            template: `
-                <message ng-repeat="msg in userController.selectedUser.inputMsgs"></message>
-            `
-        })
-        .state('outputMsgs', {
-            url: ':email/messages/output',
-            template: `
-                <message ng-repeat="msg in userController.selectedUser.outputMsgs"></message>
-            `
-        })
-        .state('markedMsgs', {
-            url: ':email/messages/marked',
-            template: `
-                <message ng-repeat="msg in userController.selectedUser.markedMsgs"></message>
-            `
-        })
-})
-
 app.service('MsgService', function($q) {
     this.loadUsers = function() {
         return $q((resolve, reject) => {
@@ -140,30 +99,13 @@ app.service('ContactService', function($q) {
 app.directive('message', () => {
     return {
         restrict: 'E',
-        template: `
-        <li>
-            <h2>{{msg.addresser}}</h2>
-            <h3>{{msg.title}}</h3>
-            <p class="date">{{msg.date}}</p>
-            <button class="{{!opened ? 'isClosed' : ''}}" ng-model="opened" ng-click="opened=!opened"></button>
-            <div ng-show="opened">
-                <h4>{{msg.addresser}}</h4>
-                <img src={{msg.addresserImg}}>
-                <p>{{msg.message}}</p>
-            </div>
-        </li>`
+        templateUrl: 'src/messages.html'
     }
 })
 
 app.directive('contacts', () => {
     return {
         restrict: 'E',
-        template: `<div class="contact">
-            <h3>{{contact.name}}</h3>
-            <img src={{contact.avatar}}>
-            <p>{{contact.age}} лет</p>
-            <a href="mailto:{{contact.mail}}">{{contact.mail}}</a><br />
-            <button class="contact__deleteContact" ng-click="userController.deleteContactByEmail(contact.mail)">
-        </div>`
+        template: 'src/contacts.html'
     }
 })

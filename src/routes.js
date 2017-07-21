@@ -1,9 +1,9 @@
 app.config(($stateProvider) => {
     $stateProvider
         .state('index', {
-            url: '/',
+            url: '',
             template: `
-                <message ng-repeat="msg in userController.selectedUser.inputMsgs"></message>
+                '<h2>Hello {{userController.selectedUser.user}}</h2>'
             `
         })
         .state('contacts', {
@@ -15,26 +15,24 @@ app.config(($stateProvider) => {
                 </div>
             `
         })
-        .state('messages', {
-            url: ':email/messages',
-            template: `
-                Hello User!
-            `
+        .state('welcome', {
+            url: ':email/welcome',
+            template: '<h2>Hello {{userController.selectedUser.user}}</h2>'
         })
-        .state('messages.input', {
-            url: '/input',
+        .state('inputMsgs', {
+            url: ':email/messages/input',
             template: `
                 <message ng-repeat="msg in userController.selectedUser.inputMsgs"></message>
             `
         })
-        .state('messages.output', {
-            url: '/output',
+        .state('outputMsgs', {
+            url: ':email/messages/output',
             template: `
                 <message ng-repeat="msg in userController.selectedUser.outputMsgs"></message>
             `
         })
-        .state('messages.marked', {
-            url: '/marked',
+        .state('markedMsgs', {
+            url: ':email/messages/marked',
             template: `
                 <message ng-repeat="msg in userController.selectedUser.markedMsgs"></message>
             `
