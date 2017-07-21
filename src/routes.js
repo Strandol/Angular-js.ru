@@ -2,9 +2,7 @@ app.config(($stateProvider) => {
     $stateProvider
         .state('index', {
             url: '',
-            template: `
-                '<h2>Hello {{userController.selectedUser.user}}</h2>'
-            `
+            template: '<h2>Hello {{userController.selectedUser.user}}</h2>'
         })
         .state('contacts', {
             url: ':email/contacts',
