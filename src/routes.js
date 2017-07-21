@@ -1,7 +1,7 @@
 app.config(($stateProvider) => {
     $stateProvider
         .state('index', {
-            url: '/',
+            url: '',
             template: `
                 <message ng-repeat="msg in userController.selectedUser.inputMsgs"></message>
             `
