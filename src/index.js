@@ -25,26 +25,19 @@ app.controller('UserController', function(MsgService, ContactService) {
         () => {
             ContactService.loadContacts()
             .then(
-                (contacts) => {            
-                    if (localStorage.getItem('contacts')) {
-                        this.contacts = JSON.parse(localStorage.getItem('contacts'));
-                        this.selectedUser.contacts = this.contacts.find((contacts) => {
-                            return contacts.user === this.selectedUser.user;
-                        }).contacts
-                    } else {
-                        this.contacts = contacts;
-                        this.selectedUser.contacts = contacts.find((contacts) => {
-                            return contacts.user === this.selectedUser.user;
-                        }).contacts
-                        localStorage.setItem('contacts', JSON.stringify(contacts));
-                    }
+                (contactsInfo) => {
+                    let storageContacts = localStorage.getItem('userContactsInfo');
+                    if (!storageContacts)
+                        localStorage.setItem('userContactsInfo', JSON.stringify(contactsInfo));
+                    this.userContactsInfo = storageContacts ? JSON.parse(storageContacts) : contactsInfo; 
+                    this.selectedUser.contacts = this.userContactsInfo.find((contacts) => {
+                        return contacts.user === this.selectedUser.user;
+                    }).contacts
                 },
                 (err) => { alert(err) }
             )
         }
     )
-    
-
     
     this.onSectionClickHandler = (section) => {        
         this.isContactsOpen = false;
@@ -53,22 +46,22 @@ app.controller('UserController', function(MsgService, ContactService) {
     }
     
     this.deleteContactByEmail = (email) => {
-        let userIndex = this.contacts.findIndex((userContacts) => {
+        let userIndex = this.userContactsInfo.findIndex((userContacts) => {
             return userContacts.user === this.selectedUser.user;
         })
         
-        let index = this.contacts[userIndex].contacts.findIndex((contact) => {
+        let index = this.userContactsInfo[userIndex].contacts.findIndex((contact) => {
             return contact.mail === email;
         })
         
-        this.contacts[userIndex].contacts.splice(index, 1);
-        this.selectedUser.contacts = this.contacts[userIndex].contacts;
-        localStorage.setItem('contacts', JSON.stringify(this.contacts));
+        this.userContactsInfo[userIndex].contacts.splice(index, 1);
+        this.selectedUser.contacts = this.userContactsInfo[userIndex].contacts;
+        localStorage.setItem('userContactsInfo', JSON.stringify(this.userContactsInfo));
     }
     
     this.refreshData = () => {
         this.selectedMsgs = this.selectedUser[this.selectedSection + 'Msgs'];
-        this.selectedUser.contacts = this.contacts.find((contacts) => {
+        this.selectedUser.contacts = this.userContactsInfo.find((contacts) => {
             return contacts.user === this.selectedUser.user;
         }).contacts
     }
@@ -97,31 +90,13 @@ app.service('ContactService', function($q) {
 app.directive('message', () => {
     return {
         restrict: 'E',
-        template: `
-            <li>
-                <h2>{{msg.addresser}}</h2>
-                <h3>{{msg.title}}</h3>
-                <p class="date">{{msg.date}}</p>
-                <button class="{{!opened ? 'isClosed' : ''}}" ng-model="opened" ng-click="opened=!opened"></button>
-                <div ng-show="opened">
-                    <h4>{{msg.addresser}}</h4>
-                    <img src={{msg.addresserImg}}>
-                    <p>{{msg.message}}</p>
-                </div>
-            </li>`
+        templateUrl: 'src/messages.html'
     }
 })
 
 app.directive('contacts', () => {
     return {
         restrict: 'E',
-        template: `
-            <div class="contact">
-                <h3>{{contact.name}}</h3>
-                <img src={{contact.avatar}}>
-                <p>{{contact.age}} лет</p>
-                <a href="mailto:{{contact.mail}}">{{contact.mail}}</a><br />
-                <button class="contact__deleteContact" ng-click="userController.deleteContactByEmail(contact.mail)">
-            </div>`
+        template: 'src/contacts.html'
     }
 })
