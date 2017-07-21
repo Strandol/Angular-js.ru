@@ -10,7 +10,12 @@
         <h1>Message list</h1>
         <div class="wrapper" ng-controller="UserController as userController">
             <div class="userSection">
-                <select ng-change="userController.refreshData()" ng-model="userController.selectedUser" ng-options="user.user for user in userController.users"></select>
+                <select 
+                    ui-sref="messages({ email: userController.selectedUser.user })"
+                    ng-change="userController.refreshData()" 
+                    ng-model="userController.selectedUser" 
+                    ng-options="user.user for user in userController.users">
+                </select>
             </div>
             <div class="sectionBlock">
                 <label id="inputMsg" ui-sref="messages.input({ email: userController.selectedUser.user })" ng-click="userController.onSectionClickHandler('input')">
