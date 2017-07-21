@@ -1,4 +1,12 @@
-let app = angular.module('userMail', []);
+let app = angular.module('userMail', ['ui.router']);
+
+$('.sectionBlock #input').addClass('selectedSection');
+$('.sectionBlock').on('click', function(e) {
+    if (e.target.tagName !== 'LABEL')
+        return;
+    $('.sectionBlock label').removeClass('selectedSection');
+    $(e.target).addClass('selectedSection');
+})
 
 app.controller('UserController', function(MsgService, ContactService) {
     this.selectedSection = 'input';
@@ -16,7 +24,6 @@ app.controller('UserController', function(MsgService, ContactService) {
             })
             
             this.selectedUser = this.users[0];
-            window.user = this.selectedUser
             this.selectedMsgs = this.users[0].inputMsgs;
         },
         (err) => { alert(err) }
@@ -67,6 +74,49 @@ app.controller('UserController', function(MsgService, ContactService) {
     }
 })
 
+app.config(($stateProvider) => {
+    $stateProvider
+        .state('index', {
+            url: '/',
+            template: `
+                <message ng-repeat="msg in userController.selectedUser.inputMsgs"></message>
+            `
+        })
+        .state('contacts', {
+            url: ':email/contacts',
+            template: `
+                <div class="contacts">
+                    <contacts ng-repeat="contact in userController.selectedUser.contacts"></contacts>
+                    <h2 class="noContactsHeader" ng-show="!userController.selectedUser.contacts.length">Контактов не записано...</h2>
+                </div>
+            `
+        })
+        .state('messages', {
+            url: ':email/messages',
+            template: `
+                <message ng-repeat="msg in userController.selectedMsgs"></message>
+            `
+        })
+        .state('messages.input', {
+            url: '/input',
+            template: `
+                <message ng-repeat="msg in userController.selectedUser.inputMsgs"></message>
+            `
+        })
+        .state('messages.output', {
+            url: '/output',
+            template: `
+                <message ng-repeat="msg in userController.selectedUser.outputMsgs"></message>
+            `
+        })
+        .state('messages.marked', {
+            url: '/marked',
+            template: `
+                <message ng-repeat="msg in userController.selectedUser.markedMsgs"></message>
+            `
+        })
+})
+
 app.service('MsgService', function($q) {
     this.loadUsers = function() {
         return $q((resolve, reject) => {
@@ -97,6 +147,6 @@ app.directive('message', () => {
 app.directive('contacts', () => {
     return {
         restrict: 'E',
-        template: 'src/contacts.html'
+        templateUrl: 'src/contacts.html'
     }
 })
