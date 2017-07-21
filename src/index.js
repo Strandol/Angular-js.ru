@@ -1,50 +1,83 @@
 let app = angular.module('userMail', []);
 
 app.controller('UserController', function(MsgService, ContactService) {
-    MsgService.loadMessages()
+    this.selectedSection = 'input';
+    this.isContactsOpen = false;
+    
+    MsgService.loadUsers()
     .then(
-        (messages) => {
-            this.inputMsgs = messages.filter((msg) => msg.section === 'input');
-            this.outputMsgs = messages.filter((msg) => msg.section === 'output')
-            this.markedMsgs = messages.filter((msg) => msg.section === 'marked')
-            this.selectedMsgs = this.inputMsgs;
+        (users) => {
+            this.users = users;
+            this.users.forEach((user) => {
+                user.inputMsgs = user.messages.filter((msg) => msg.section === 'input');
+                user.outputMsgs = user.messages.filter((msg) => msg.section === 'output')
+                user.markedMsgs = user.messages.filter((msg) => msg.section === 'marked')
+                user.selectedMsgs = user.inputMsgs;
+            })
+            
+            this.selectedUser = this.users[0];
+            window.user = this.selectedUser
+            this.selectedMsgs = this.users[0].inputMsgs;
         },
         (err) => { alert(err) }
+    )
+    .then(
+        () => {
+            ContactService.loadContacts()
+            .then(
+                (contacts) => {            
+                    if (localStorage.getItem('contacts')) {
+                        this.contacts = JSON.parse(localStorage.getItem('contacts'));
+                        this.selectedUser.contacts = this.contacts.find((contacts) => {
+                            return contacts.user === this.selectedUser.user;
+                        }).contacts
+                    } else {
+                        this.contacts = contacts;
+                        this.selectedUser.contacts = contacts.find((contacts) => {
+                            return contacts.user === this.selectedUser.user;
+                        }).contacts
+                        localStorage.setItem('contacts', JSON.stringify(contacts));
+                    }
+                },
+                (err) => { alert(err) }
+            )
+        }
     )
     
-    ContactService.loadContacts()
-    .then(
-        (contacts) => { 
-            if (localStorage.getItem('contacts')) {
-                this.contacts = JSON.parse(localStorage.getItem('contacts'));
-            } else {
-                this.contacts = contacts;
-                localStorage.setItem('contacts', JSON.stringify(contacts));
-            }
-        },
-        (err) => { alert(err) }
-    )
+
     
     this.onSectionClickHandler = (section) => {        
         this.isContactsOpen = false;
-        this.selectedMsgs = this[`${section}Msgs`];
+        this.selectedMsgs = this.selectedUser[`${section}Msgs`];
+        this.selectedSection = section;
     }
     
     this.deleteContactByEmail = (email) => {
-        let index = this.contacts.findIndex((contact) => {
+        let userIndex = this.contacts.findIndex((userContacts) => {
+            return userContacts.user === this.selectedUser.user;
+        })
+        
+        let index = this.contacts[userIndex].contacts.findIndex((contact) => {
             return contact.mail === email;
         })
-        this.contacts.splice(index, 1);
+        
+        this.contacts[userIndex].contacts.splice(index, 1);
+        this.selectedUser.contacts = this.contacts[userIndex].contacts;
         localStorage.setItem('contacts', JSON.stringify(this.contacts));
     }
     
-    this.isContactsOpen = false;
+    this.refreshData = () => {
+        this.selectedMsgs = this.selectedUser[this.selectedSection + 'Msgs'];
+        this.selectedUser.contacts = this.contacts.find((contacts) => {
+            return contacts.user === this.selectedUser.user;
+        }).contacts
+    }
 })
 
 app.service('MsgService', function($q) {
-    this.loadMessages = function() {
+    this.loadUsers = function() {
         return $q((resolve, reject) => {
-            $.get('https://api.myjson.com/bins/try33', (response) => {
+            $.get('https://api.myjson.com/bins/lfg6n', (response) => {
                 resolve(response)
             }).fail((err) => { reject(err); })  
         })
@@ -54,7 +87,7 @@ app.service('MsgService', function($q) {
 app.service('ContactService', function($q) {
     this.loadContacts = function() {
         return $q((resolve, reject) => {
-            $.get('https://api.myjson.com/bins/13d8n3', (response) => {
+            $.get('https://api.myjson.com/bins/1djcfb', (response) => {
                 resolve(response);
             }).fail((err) => { reject(err); })
         })

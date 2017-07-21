@@ -200,3 +200,11 @@ div h4 {
     background-size: 40px;
     cursor: pointer;
 }
+
+.userSection select {
+    width: 220px;
+    font-size: 15px;
+    font-family: 'Roboto';
+    padding: 5px;
+    box-sizing: border-box;
+}
