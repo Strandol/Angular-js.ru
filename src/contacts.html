@@ -1,0 +1,7 @@
+<div class="contact">
+    <h3>{{contact.name}}</h3>
+    <img src={{contact.avatar}}>
+    <p>{{contact.age}} лет</p>
+    <a href="mailto:{{contact.mail}}">{{contact.mail}}</a><br />
+    <button class="contact__deleteContact" ng-click="userController.deleteContactByEmail(contact.mail)">
+</div>

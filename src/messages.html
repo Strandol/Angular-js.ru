@@ -1,0 +1,11 @@
+<li>
+    <h2>{{msg.addresser}}</h2>
+    <h3>{{msg.title}}</h3>
+    <p class="date">{{msg.date}}</p>
+    <button class="{{!opened ? 'isClosed' : ''}}" ng-model="opened" ng-click="opened=!opened"></button>
+    <div ng-show="opened">
+        <h4>{{msg.addresser}}</h4>
+        <img src={{msg.addresserImg}}>
+        <p>{{msg.message}}</p>
+    </div>
+</li>
