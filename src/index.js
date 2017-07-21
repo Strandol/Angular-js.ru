@@ -9,7 +9,6 @@ $('.sectionBlock').on('click', function(e) {
 })
 
 app.controller('UserController', function(MsgService, ContactService) {
-    this.selectedSection = 'input';
     this.isContactsOpen = false;
     
     MsgService.loadUsers()
@@ -45,12 +44,6 @@ app.controller('UserController', function(MsgService, ContactService) {
             )
         }
     )
-    
-    this.onSectionClickHandler = (section) => {        
-        this.isContactsOpen = false;
-        this.selectedMsgs = this.selectedUser[`${section}Msgs`];
-        this.selectedSection = section;
-    }
     
     this.deleteContactByEmail = (email) => {
         let userIndex = this.userContactsInfo.findIndex((userContacts) => {

@@ -18,7 +18,7 @@ app.config(($stateProvider) => {
         .state('messages', {
             url: ':email/messages',
             template: `
-                <message ng-repeat="msg in userController.selectedMsgs"></message>
+                <message ng-repeat="msg in userController.selectedUser.inputMsgs"></message>
             `
         })
         .state('messages.input', {
