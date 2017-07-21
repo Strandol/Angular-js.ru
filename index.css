@@ -130,7 +130,7 @@ div h4 {
     display: none;
 }
 
-.sectionBlock input[type="radio"]:checked + label {
+.selectedSection {
     animation-name: showBorderBottom;
     animation-fill-mode: forwards;
     animation-duration: 1s;
